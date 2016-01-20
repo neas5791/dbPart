@@ -1,5 +1,17 @@
 <?php
 
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
+
+	$new_prod = false;
+
+// 	$log = './log/log';
+// 	$content = file_get_contents($log);
+// 	echo $content;
+// 	$new_content .= PHP_EOL.time()."\t".$_SERVER['REMOTE_ADDR']."-\ttest write to log file";
+//  file_put_contents($log, $new_content, FILE_APPEND);
+
 // Return $pdo database object
 function dbConnect() {
 	try {
@@ -24,25 +36,52 @@ function dbConnect() {
 	return $pdo;
 }
 
-function getData($id){
-	dbConnect();
+// function getData($id){
+// 	dbConnect();
 
-	try {
-		$sql = 'SELECT * FROM tbPart WHERE id = :id';
-		$s = $pdo -> prepare($sql);
-		$s -> bindValue(':id', $id, PDO::PARAM_INT);
-		$result = $s -> execute();
-	}
-	catch (PDOException $e) {
-		$error =  'Query failed with following error:<br>'.	
-					$e->getMessage();
-			exit();
-	}
-}
+// 	try {
+// 		$sql = 'SELECT * FROM tbPart WHERE id = :id';
+// 		$s = $pdo -> prepare($sql);
+// 		$s -> bindValue(':id', $id, PDO::PARAM_INT);
+// 		$result = $s -> execute();
+// 	}
+// 	catch (PDOException $e) {
+// 		$error =  'Query failed with following error:<br>'.	
+// 					$e->getMessage();
+// 			exit();
+// 	}
+// }
 
 function addData($supplierid, $sup_part_number, $prefix,  $descr, $typeid){
 	$pdo = dbConnect();
-	echo '<span>Hit function -> '.$part_number.' - '.$descr.' - '.$typeid.'</span><br>';
+	echo '<br><span>Hit function -> '.$sup_part_number.' - '.$descr.' - '.$typeid.'</span><br>';
+	// include './php/upload.php';
+
+	if (preg_match('/^image\/p?jpeg$/i', $_FILES['upload']['type'])) {
+		$ext = '.jpg';
+	}
+	else if (preg_match('/^image\/gif$/i', $_FILES['upload']['type'])) {
+		$ext = '.gif';
+	}
+	else if (preg_match('/^image\/(x-)?png$/i', $_FILES['upload']['type'])) {
+		$ext = '.png';
+	}
+	else {
+		$ext = '.unknown';
+	}
+
+	$filename = './img/'.time().$ext;
+	echo $filename;
+	// exit();
+
+	if (!is_uploaded_file($_FILES['upload']['tmp_name']) or 
+		!copy($_FILES['upload']['tmp_name'], $filename)) {
+		$error = PHP_EOL.time()."\t".$_SERVER['REMOTE_ADDR']."-\tCould not save file as $filename!";
+		file_put_contents($log, $error, FILE_APPEND);
+	}
+
+
+
 
 	try {
 		
@@ -63,19 +102,23 @@ function addData($supplierid, $sup_part_number, $prefix,  $descr, $typeid){
 		echo 'Part added to database<br>';
 
 		// echo $supplierid.' - '.$part_number_id.' - '.$sup_part_number;
-		$sql = 'INSERT INTO tbSupplierPart (supplierid, partid, sup_part_number) VALUES
-							( :supplierid, :part_id, :sup_part_number)';
+		$sql = 'INSERT INTO tbSupplierPart (supplierid, partid, sup_part_number, img) VALUES
+							( :supplierid, :part_id, :sup_part_number, :img)';
 		$s = $pdo -> prepare($sql);
 		$s -> bindValue(':supplierid', $supplierid, PDO::PARAM_INT);
 		$s -> bindValue(':part_id', $part_id, PDO::PARAM_INT);
 		$s -> bindValue(':sup_part_number', $sup_part_number, PDO::PARAM_STR);
+		$s -> bindValue(':img', $filename, PDO::PARAM_STR);
 		$s -> execute();
 		echo 'Supplier Part added to database<br>';		
 
-		$s -> bindValue(':supplierid', 1, PDO::PARAM_INT);
-		$s -> bindValue(':part_id', $part_id, PDO::PARAM_INT);
-		$s -> bindValue(':sup_part_number', $part_number, PDO::PARAM_STR);
-		$s -> execute();
+		// if ()
+		// // 	$s -> bindValue(':supplierid', 1, PDO::PARAM_INT);
+		// // 	$s -> bindValue(':part_id', $part_id, PDO::PARAM_INT);
+		// // 	$s -> bindValue(':sup_part_number', $part_number, PDO::PARAM_STR);
+		// // 	$s -> execute();
+		// }
+
 	}
 	catch (PDOException $e) {
 		$error =  'Insert failed with following error:<br>'.	
@@ -86,14 +129,19 @@ function addData($supplierid, $sup_part_number, $prefix,  $descr, $typeid){
 
 }
 
-function testData($supplierid, $sup_part_number, $prefix, $descr, $typeid){
-	$pdo = dbConnect();
+// function testData($supplierid, $sup_part_number, $prefix, $descr, $typeid){
+// 	$pdo = dbConnect();
 
-}
+// }
 	
 	if(isset($_POST['add'])) {
-		echo 'add';
-		addData($_POST['supplierid'], $_POST['sup_part_number'], $_POST['prefix'], $_POST['descr'], $_POST['typeid'] );
+
+		addData(
+			$_POST['supplierid'], 
+			$_POST['sup_part_number'], 
+			$_POST['prefix'], 
+			$_POST['descr'], 
+			$_POST['typeid'] );
 	}
 
 	try {
@@ -112,7 +160,6 @@ function testData($supplierid, $sup_part_number, $prefix, $descr, $typeid){
 		$s = $pdo->prepare($sql);
 		$s -> execute();
 		$prefixes = $s -> fetchAll();
-
 	}
 	catch (PDOException $e) {
 		$error =  'Error getting Type list:<br>'.	
@@ -122,3 +169,45 @@ function testData($supplierid, $sup_part_number, $prefix, $descr, $typeid){
 
 	include 'index.html.php';
 ?>
+
+<!-- 	// ****************  Pagination ********************************//
+	$rec_limit = 25; // number records to display on page
+	try {
+		// number of records in table
+		$sql = 'SELECT COUNT(partnumber) FROM tbPart WHERE active';
+		
+		$s = $pdo ->prepare($sql);
+		$s -> execute();
+		$recval = $s -> fetch();
+	}
+	catch (PDOException $e) {
+		$error = 'Error counting part results.<br>' . $e -> getMessage();
+		include $_SERVER['DOCUMENT_ROOT'] .
+			'/includes/error.html.php';
+		exit();
+	}
+	$rec_count = $recval[0];
+
+	// check that the table contains records
+	if($rec_count == 0) { 
+		$error = 'No valid data in table.<br>'.$sql;
+		include $_SERVER['DOCUMENT_ROOT'] .
+			'/includes/error.html.php';
+		exit();	
+	}
+
+	if( isset($_GET['page'] ) ) {
+		
+		if ( $_GET['page'] < ($rec_count / $rec_limit)-1 )
+			$page = $_GET['page'] + 1;
+		else
+			$page = $_GET['page'];
+
+		$offset = $rec_limit * $page ;
+  }
+	else {
+    $page = 0;
+    $offset = 0;
+  }
+
+  $left_rec = $rec_count - ($page * $rec_limit); -->

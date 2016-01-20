@@ -7,7 +7,7 @@
 	</script>
 </head>
 <body>
-<form method="post">
+<form action="" method="post" enctype="multipart/form-data">
 	<label for="supplierid">Supplier:</label>
 	<select name="supplierid">
 		<option value="0"></option>
@@ -48,10 +48,13 @@
 			<option value="<?php echo $type['id']; ?>">
 			<?php echo $type['type']; ?>
 			</option>
-		<?php endforeach; ?>	
+		<?php endforeach; ?>
 	</select>
-	<!-- <label for="sup_part_number">Supplier Part</label>
-	<input type="text" name="sup_part_number"></input> -->
+	<input type="checkbox" name="new_prod" value="true">
+	<label for="upload">Supplier Part</label>
+	<input type="file" name="upload"></input>
+	<input type="hidden" name="MAX_FILE_SIZE" value="1000000">
+	<input type="hidden" name="action" value="upload">
 	<input type="submit" name="add" value="Add"></input>
 </form>
 </body>

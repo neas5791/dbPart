@@ -46,6 +46,7 @@ CREATE TABLE tbSupplierPart (
 	supplierid		INT NOT NULL,
 	partid			INT NOT NULL,
 	sup_part_number VARCHAR(255),
+	img 			varchar(255),
 	FOREIGN KEY (supplierid) REFERENCES tbSupplier(id),
 	FOREIGN KEY (partid) REFERENCES tbPart(id),
 	PRIMARY KEY (supplierid, partid)
