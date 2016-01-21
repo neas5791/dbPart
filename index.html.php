@@ -57,5 +57,28 @@
 	<input type="hidden" name="action" value="upload">
 	<input type="submit" name="add" value="Add"></input>
 </form>
+
+<div>
+	<table>
+		<tr>
+			<th>PID</th>
+			<th>DESCRIPTION</th>
+			<th>DRAWING NUMBER</th>
+			<th>SUPPLIER PART NUMBER</th>
+			<th>SUPPLIER</th>
+		</tr>
+		<?php foreach($results AS $row): ?>
+			<tr>
+            <td><?php echo $row['PID']; ?></td>
+            <td><?php echo $row['DESCRIPTION']; ?></td>
+            <td><?php echo $row['DWG_NUMBER']; ?></td>
+            <td><?php echo $row['PART_NUMBER']; ?></td>
+            <td><?php echo $row['SUPPLIER']; ?></td>
+          </tr>
+    <?php endforeach; ?>
+
+	</table>
+
+</div>
 </body>
 </html>

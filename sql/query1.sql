@@ -24,6 +24,7 @@ ORDER BY PID;
 SELECT CONCAT(tbPart.prefix, tbPart.id) AS 'PID', tbPart.descr AS 'DESCRIPTION', IFNULL(tbDrawing.drawing_number,'') AS 'DWG NUMBER',tbSupplierPart.sup_part_number AS 'PART NUMBER' FROM tbPart
 LEFT OUTER JOIN tbDrawing ON tbPart.id = tbDrawing.partid
 LEFT OUTER JOIN tbSupplierPart ON tbPart.id = tbSupplierPart.partid
+INNER JOIN tbSupplier ON tb.tbSupplierPart.supplierid = tbSupplier.id
 ORDER BY PID;
 '
 +---------+----------------------------------+------------+-------------------+

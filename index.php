@@ -160,6 +160,23 @@ function addData($supplierid, $sup_part_number, $prefix,  $descr, $typeid){
 		$s = $pdo->prepare($sql);
 		$s -> execute();
 		$prefixes = $s -> fetchAll();
+
+
+		$sql = 'SELECT 
+					CONCAT(tbPart.prefix, tbPart.id) AS "PID", 
+					tbPart.descr AS "DESCRIPTION", 
+					IFNULL(tbDrawing.drawing_number,"") AS "DWG_NUMBER",
+					tbSupplierPart.sup_part_number AS "PART_NUMBER",
+					tbSupplier.company as "SUPPLIER"
+				FROM tbPart
+				LEFT OUTER JOIN tbDrawing ON tbPart.id = tbDrawing.partid
+				LEFT OUTER JOIN tbSupplierPart ON tbPart.id = tbSupplierPart.partid
+				INNER JOIN tbSupplier ON tbSupplierPart.supplierid = tbSupplier.id
+				ORDER BY PID';
+		$s = $pdo->prepare($sql);
+		$s -> execute();
+		$results = $s -> fetchAll();
+
 	}
 	catch (PDOException $e) {
 		$error =  'Error getting Type list:<br>'.	
