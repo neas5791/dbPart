@@ -41,8 +41,8 @@
 					<tr value="<?php echo $row['PID']; ?>">
 					<td><?php echo $row['PID']; ?></td>
 					<td><?php echo $row['DESCRIPTION']; ?></td>
-					<td><?php echo $row['DWG_NUMBER']; ?></td>
-					<td><?php echo $row['PART_NUMBER']; ?></td>
+					<td id="dwg"><?php echo $row['DWG_NUMBER']; ?></td>
+					<td id="part"><?php echo $row['PART_NUMBER']; ?></td>
 					<td><?php echo $row['SUPPLIER']; ?></td>
 				  </tr>
 			<?php endforeach; ?>
