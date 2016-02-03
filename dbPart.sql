@@ -33,7 +33,7 @@ CREATE TABLE tbSupplier (
 -- tbPart
 CREATE TABLE tbPart (
 	id				INT NOT NULL PRIMARY KEY AUTO_INCREMENT UNIQUE,
-	prefix			CHAR(1) NOT NULL,
+	-- prefix			CHAR(1) NOT NULL, -- forget this idea duplicate info prefix is just extension of type!!
 	-- part_number		VARCHAR(255) NOT NULL UNIQUE,
 	descr			VARCHAR(255),
 	typeid			INT,
@@ -70,6 +70,7 @@ INSERT INTO tbType (type, descr) VALUES ('MEC', 'Mechanical components');
 INSERT INTO tbType (type, descr) VALUES ('PUR', 'Purchased components');
 INSERT into tbType (type, descr) VALUES ('POW', 'Truck, engine and PTO components');
 INSERT into tbType (type, descr) VALUES ('SUB', 'Sub contract requirement');
+INSERT into tbType (type, descr) VALUES ('CON', 'Consumable components');
 
 INSERT INTo tbSupplier 
 SET company = 'TRANSCRETE';
@@ -83,26 +84,30 @@ INSERT INTO tbSupplier SET company = 'PRINCE';
 -- INSERT INTO tbSupplier SET company = 'TRANSCRETE';
 
 INSERT IGNORE INTO tbPart 
-SET prefix = 'P',
+SET 
+-- prefix = 'P',
 -- SET part_number = CONCAT('P', 300000),
 	descr = 'RELAY CHANGE OVER  24V 30A 5 PIN', 
 	typeid = '3';
 
 INSERT IGNORE INTO tbPart 
-SET prefix = 'P',
+SET 
+-- prefix = 'P',
 -- SET part_number = CONCAT('P', LAST_INSERT_ID() + 1),
 	descr = 'INTERPUMP WS202', 
 	typeid = '5';
 
 INSERT IGNORE INTO tbPart 
-SET prefix = 'P',
+SET 
+-- prefix = 'P',
 -- SET part_number = CONCAT('P', LAST_INSERT_ID() + 1),
 -- SET part_number = '35T-301',
 	descr = 'TROJAN CLEVIS PIN (3/4")', 
 	typeid = '4';
 
 INSERT IGNORE INTO tbPart 
-SET prefix = 'P',
+SET 
+-- prefix = 'P',
 -- SET part_number = CONCAT('P', LAST_INSERT_ID() + 1),
 -- SET part_number = 'T0055',
 	descr = 'TRUCK SIDE DECK SHEET', 
