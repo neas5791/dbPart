@@ -14,6 +14,12 @@
 	// echo 'got this far!';
 	// exit();
 
+abstract class sqlType {
+	const ADD = 0;
+	const EDIT = 1;
+	const DELETE = 2;
+}
+
 function append_log($message) {
 	$log = './log/log.txt';
 	$content = file_get_contents($log);

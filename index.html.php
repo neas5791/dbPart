@@ -19,6 +19,31 @@
 	}
 	.zebrahover { background-color: #FFFACD; }
 	
+#overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: rgba(0,0,0,.75);
+	width: 100%;
+	height: 100%;
+	z-index: 50;
+}
+
+#photo {
+	position: fixed;
+	z-index: 100;
+	top: 48%;
+	left: 50%;
+}
+
+#photo img {
+	width: auto;
+	max-width: 800px;
+	height: auto;
+	max-height: 800px;
+	border: 10px solid black;
+}
+
 	</style>
 
 </head>
@@ -27,7 +52,6 @@
 		<header>
 			<h1>Part Number List</h1>
 		</header>
-		
 		<div id="table">
 			<table>
 				<tr id="head">
@@ -38,7 +62,7 @@
 					<th>SUPPLIER</th>
 				</tr>
 				<?php foreach($results AS $row): ?>
-					<tr value="<?php echo $row['PID']; ?>">
+					<tr class="clickable-row" value="<?php echo $row['PID']; ?>" data-href="/img/<?php echo $row['PID']; ?>.jpg" >
 					<td><?php echo $row['PID']; ?></td>
 					<td><?php echo $row['DESCRIPTION']; ?></td>
 					<td id="dwg"><?php echo $row['DWG_NUMBER']; ?></td>
