@@ -60,6 +60,7 @@
 					<th>DRAWING NUMBER</th>
 					<th>SUPPLIER PART NUMBER</th>
 					<th>SUPPLIER</th>
+					<th class="edit">EDIT</th>
 				</tr>
 				<?php foreach($results AS $row): ?>
 					<tr class="clickable-row" value="<?php echo $row['PID']; ?>" data-href="/img/<?php echo $row['PID']; ?>.jpg" >
@@ -68,6 +69,7 @@
 					<td id="dwg"><?php echo $row['DWG_NUMBER']; ?></td>
 					<td id="part"><?php echo $row['PART_NUMBER']; ?></td>
 					<td><?php echo $row['SUPPLIER']; ?></td>
+					<td class="edit"><input type="radio" value="<?php echo $row['PID']; ?>" name="edit"></input></td>
 				  </tr>
 			<?php endforeach; ?>
 			</table>
@@ -78,7 +80,8 @@
 		</div>
 		
 		<div id="addPart">
-		<a href="form.html">Add new part</a>
+		<a href="addform.html" id="add">Add new part</a>
+		<a href="editform.html" id="edit-button">Edit part</a>
 			<form action="" method="post" enctype="multipart/form-data">
 
 				<div id="block">

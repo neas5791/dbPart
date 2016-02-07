@@ -2,11 +2,12 @@
 
 $(document).ready(function() {
 	$('#addPart form').hide();
+	$('.edit').hide();
 	$('tr:even').addClass("zebra");
 
 	$('input[type=submit], input[type=file]').button();
 	
-	$('#addPart a')
+	$('#add')
 		.button()
 		.click(
 			function(event) {
@@ -16,8 +17,29 @@ $(document).ready(function() {
 				}
 				else {
 					$('#addPart form').slideUp();	
-				}
-			}
+				} // end if-else
+			} // end function
+		); // end click
+
+	$('#edit-button')
+		.button()
+		.click(
+			function (event) {
+				event.preventDefault();
+
+				if ( $('.edit').is(':hidden') ) {
+					$('.edit').show();//("slide", { direction: "left" }, 1000);
+					$('.edit').addClass('close');
+					$('input :radio :checked').attr('checked', 'false');
+					console.log(event.target);
+				} // end if
+				else {
+					$('.edit').hide();//("slide", { direction: "left" }, 1000);
+					$('.edit').removeClass('close');
+					console.log(event.target);
+				} // end else
+			} // end function
+
 		); // end click
 
 	$('tr:not(#head)').hover( 
@@ -25,12 +47,15 @@ $(document).ready(function() {
 			$(this).addClass("zebrahover");
 			// var image = $(this).
 			// $('#image').attr('src','')
-		},
+		}, // end function mouse over
 		function() {
 			$(this).removeClass("zebrahover");
-		}
+		} // end function mouse out
 	); // end hover
-
+	$('td').click( function(event) {
+		console.log(event.target);
+	}); // end click
+/*
 	$('.clickable-row').click( function (evt) {
 		var value = $(this).attr('data-href'); // works gives me the value only
 		console.log("You clicked: " + value);		
@@ -48,7 +73,7 @@ $(document).ready(function() {
 		//don't let event go up page
 		evt.stopPropagation();
 	}); // end click
-
+*/
 
 	function displayImage() {
 		console.log('running display image');

@@ -36,7 +36,8 @@ CREATE TABLE tbPart (
 	-- prefix			CHAR(1) NOT NULL, -- forget this idea duplicate info prefix is just extension of type!!
 	-- part_number		VARCHAR(255) NOT NULL UNIQUE,
 	descr			VARCHAR(255),
-	typeid			INT,
+	image 			VARCHAR(255),
+	-- typeid			INT,
 	active			BOOLEAN DEFAULT TRUE,
 	FOREIGN KEY (typeid) REFERENCES tbType(id)
 ) DEFAULT CHARSET=utf8 ENGINE=InnoDB AUTO_INCREMENT=300000;
@@ -60,6 +61,14 @@ CREATE TABLE tbDrawing (
 	pdf				VARCHAR(255),
 	dwg				VARCHAR(255),
 	FOREIGN KEY (partid) REFERENCES tbPart(id)
+) DEFAULT CHARSET=utf8 ENGINE=InnoDB;
+
+CREATE TABLE tbCatergory (
+	partid			INT NOT NULL,
+	typeid			INT NOT NULL,
+	FOREIGN KEY (partid) REFERENCES tbPart(id),
+	FOREIGN KEY (typeid) REFERENCES tbType(id),
+	PRIMARY KEY (partid, typeid)
 ) DEFAULT CHARSET=utf8 ENGINE=InnoDB;
 
 -- #Fill Table with DATA
