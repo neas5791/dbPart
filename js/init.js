@@ -8,7 +8,7 @@ var sup_part;
 var img;
 
 var dataStrings[] = new Array(
-	'descr=Trojan Flushbox Lid&type=1&drawing_number=351-101&supplierid=2&sup_part_number=35T-101',
+	'descr=Trojan%20Flushbox%20Lid&type=1&drawing_number=351-101&supplierid=2&sup_part_number=35T-101',
 
 	);
 

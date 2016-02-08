@@ -1,28 +1,75 @@
 // console.log("partnumber js triggered");
 
 $(document).ready(function() {
-	$('#addPart form').hide();
-	$('.edit').hide();
+
+	// var fields = new Array('pid', 'descr', 'image', 'drawing_number', 'sup_part_number', 'supplier', 'type');
+
+	// for (var i = 0; i < fields.length; i++) {
+	// 	console.log(fields[i])
+	// }
+
+	clear(); // clear selection radio mark
+
+	//  basic menu click events 
+	$('#toolbox #add_part, #toolbox #add_supplier, #toolbox #add_drawing')
+		.click(
+			function(event) {
+				event.preventDefault();
+				console.log(event.target);
+
+				var target = $(this).attr("href");
+				// console.log(target_form);
+				var arr = target.split('.');
+				// console.log(arr[0]);
+
+				var form = '#' + arr[0];
+
+				if ( $(form ).is(':hidden') ) {
+					$( form ).slideDown('slow');
+					$( form ).addClass('close');
+				}
+				else {
+					$( form ).slideUp('slow');	
+					$( form ).removeClass('close');
+				}
+			}); // end click
+
+	$('#clickme').click(
+		function() {
+			if ( $('#nav-toolbox form').is(':hidden') ){
+					$('#nav-toolbox, #nav-toolbox form').slideDown();
+				}
+				else {
+					$('#nav-toolbox, #nav-toolbox form').slideUp();	
+				} // end if-else
+		}
+	);
+	$('#nav-toolbox form').hide(); // hide the div form
+	$('#nav-toolbox').hide(); // hide the div
+	// $('.edit').hide();
 	$('tr:even').addClass("zebra");
 
 	$('input[type=submit], input[type=file]').button();
 	
-	$('#add')
-		.button()
+	$('.part #add-button')
+		// .button()
 		.click(
 			function(event) {
 				event.preventDefault();
-				if ( $('#addPart form').is(':hidden') ){
-					$('#addPart form').slideDown();
+				console.log(event.target);
+
+				$('.drawing_number input :text').prop('disabled', true);//.attr('disabled', 'disabled');
+				if ( $('#nav-toolbox form').is(':hidden') ){
+					$('#nav-toolbox form').slideDown();
 				}
 				else {
-					$('#addPart form').slideUp();	
+					$('#nav-toolbox form').slideUp();	
 				} // end if-else
 			} // end function
 		); // end click
 
 	$('#edit-button')
-		.button()
+		// .button()
 		.click(
 			function (event) {
 				event.preventDefault();
@@ -30,7 +77,14 @@ $(document).ready(function() {
 				if ( $('.edit').is(':hidden') ) {
 					$('.edit').show();//("slide", { direction: "left" }, 1000);
 					$('.edit').addClass('close');
-					$('input :radio :checked').attr('checked', 'false');
+
+					$('#table input:radio').each(
+						function (evt) {
+							$(this).prop('checked', false);
+						}
+					); // end each
+					
+
 					console.log(event.target);
 				} // end if
 				else {
@@ -40,6 +94,15 @@ $(document).ready(function() {
 				} // end else
 			} // end function
 
+		); // end click
+
+	$('.drawing #add-button')
+		// .button()
+		.click(
+			function(event) {
+				event.preventDefault();
+				console.log (event.target);
+			}
 		); // end click
 
 	$('tr:not(#head)').hover( 
@@ -55,15 +118,17 @@ $(document).ready(function() {
 	$('td').click( function(event) {
 		console.log(event.target);
 	}); // end click
-/*
-	$('.clickable-row').click( function (evt) {
-		var value = $(this).attr('data-href'); // works gives me the value only
+
+	$('.clickable-row #dwg').click( function (evt) {
+		var $tr_parent = $(this).parent('tr');
+
+		var value = $tr_parent.attr('value'); // works gives me the value only
 		console.log("You clicked: " + value);		
 		
 		// Jquery: Missing Manual edition 3 Chapter 7 Basic Light-box
 		var imgPath, newImage;
 		//get path to new image
-	  	imgPath = '/img/' + $(this).attr('value') + '.jpg';
+	  	imgPath = '/img/' + value + '.jpg';
 	   	// create HTML for new image, set opacity
 	   	// also callback for when image loads
 		$img = $('<img src="' + imgPath +'">').css('opacity',0).load(displayImage);
@@ -73,7 +138,27 @@ $(document).ready(function() {
 		//don't let event go up page
 		evt.stopPropagation();
 	}); // end click
-*/
+
+	
+
+	// $('.clickable-row').click( function (evt) {
+	// 	var value = $(this).attr('data-href'); // works gives me the value only
+	// 	console.log("You clicked: " + value);		
+		
+	// 	// Jquery: Missing Manual edition 3 Chapter 7 Basic Light-box
+	// 	var imgPath, newImage;
+	// 	//get path to new image
+	//   	imgPath = '/img/' + $(this).attr('value') + '.jpg';
+	//    	// create HTML for new image, set opacity
+	//    	// also callback for when image loads
+	// 	$img = $('<img src="' + imgPath +'">').css('opacity',0).load(displayImage);
+				
+	// 	//don't follow link
+	// 	evt.preventDefault();
+	// 	//don't let event go up page
+	// 	evt.stopPropagation();
+	// }); // end click
+
 
 	function displayImage() {
 		console.log('running display image');
@@ -108,6 +193,21 @@ $(document).ready(function() {
 		}	
 	});
 
+	function clear(){
+		
+		$('#table input:radio').each(
+			function (evt) {
+				$(this).prop('checked', false);
+			}
+		); // end each
+
+		$('.form').hide();
+	} // end clear
+
+
+	function hide_forms() {
+		$('close').hide();
+	} // end hide_forms
 
 }); // end ready
 

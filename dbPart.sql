@@ -38,8 +38,8 @@ CREATE TABLE tbPart (
 	descr			VARCHAR(255),
 	image 			VARCHAR(255),
 	-- typeid			INT,
-	active			BOOLEAN DEFAULT TRUE,
-	FOREIGN KEY (typeid) REFERENCES tbType(id)
+	active			BOOLEAN DEFAULT TRUE
+	-- FOREIGN KEY (typeid) REFERENCES tbType(id)
 ) DEFAULT CHARSET=utf8 ENGINE=InnoDB AUTO_INCREMENT=300000;
 -- tbSupplierPart
 CREATE TABLE tbSupplierPart (
@@ -96,15 +96,17 @@ INSERT IGNORE INTO tbPart
 SET 
 -- prefix = 'P',
 -- SET part_number = CONCAT('P', 300000),
-	descr = 'RELAY CHANGE OVER  24V 30A 5 PIN', 
-	typeid = '3';
+	descr = 'RELAY CHANGE OVER  24V 30A 5 PIN',
+	image = 'img/300000.jpg';
+	-- typeid = '3';
 
 INSERT IGNORE INTO tbPart 
 SET 
 -- prefix = 'P',
 -- SET part_number = CONCAT('P', LAST_INSERT_ID() + 1),
 	descr = 'INTERPUMP WS202', 
-	typeid = '5';
+	-- typeid = '5';
+	image = 'img/300001.jpg';
 
 INSERT IGNORE INTO tbPart 
 SET 
@@ -112,7 +114,8 @@ SET
 -- SET part_number = CONCAT('P', LAST_INSERT_ID() + 1),
 -- SET part_number = '35T-301',
 	descr = 'TROJAN CLEVIS PIN (3/4")', 
-	typeid = '4';
+	image = 'img/300002.jpg';
+	-- typeid = '4';
 
 INSERT IGNORE INTO tbPart 
 SET 
@@ -120,7 +123,8 @@ SET
 -- SET part_number = CONCAT('P', LAST_INSERT_ID() + 1),
 -- SET part_number = 'T0055',
 	descr = 'TRUCK SIDE DECK SHEET', 
-	typeid = '1';	
+	image = 'img/300003.jpg';
+	-- typeid = '1';
 
 INSERT IGNORE INTO tbSupplierPart (supplierid, partid, sup_part_number)
 VALUES

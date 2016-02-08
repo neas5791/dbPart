@@ -50,15 +50,19 @@ function dbConnect() {
 	return $pdo;
 }
 
-function addPart($pdo, $descr, $typeid){
+function addPart($pdo, $descr, $typeid, $ext){
 	// $pdo = dbConnect();
 	// echo '<br><span>Hit function addPart().</span><br>';
 
+	
 	try {
-		$sql = 'INSERT INTO tbPart (descr, typeid) VALUES ( :descr, :typeid )';	
+		// $sql = 'INSERT INTO tbPart (descr, typeid, image) VALUES ( :descr, :typeid, :image )';	
+		$sql = 'INSERT INTO tbPart (descr, image) VALUES ( :descr, :image )';	
 		$s = $pdo -> prepare($sql);
 		$s -> bindValue(':descr', $descr, PDO::PARAM_STR);
-		$s -> bindValue(':typeid', $typeid, PDO::PARAM_INT);
+		// $s -> bindValue(':typeid', $typeid, PDO::PARAM_INT);
+		$filename = './img/'.($pdo -> lastInsertId()).$ext;	
+		$s -> bindValue(':image', $filename, PDO::PARAM_STR);
 		$s -> execute();
 		$last_id = $pdo -> lastInsertId();
 
@@ -77,13 +81,15 @@ function addSupplierPart($pdo, $supplierid, $partid, $sup_part_number, $filename
 	// echo '<br><span>Hit function addSupplierPart().</span><br>';
 
 	try {
-				$sql = 'INSERT INTO tbSupplierPart (supplierid, partid, sup_part_number, img) VALUES
-							( :supplierid, :part_id, :sup_part_number, :img)';
+		// $sql = 'INSERT INTO tbSupplierPart (supplierid, partid, sup_part_number, img) VALUES
+							// ( :supplierid, :part_id, :sup_part_number, :img)';
+		$sql = 'INSERT INTO tbSupplierPart (supplierid, partid, sup_part_number) VALUES
+							( :supplierid, :part_id, :sup_part_number)';
 		$s = $pdo -> prepare($sql);
 		$s -> bindValue(':supplierid', $supplierid, PDO::PARAM_INT);
 		$s -> bindValue(':part_id', $partid, PDO::PARAM_INT);
 		$s -> bindValue(':sup_part_number', $sup_part_number, PDO::PARAM_STR);
-		$s -> bindValue(':img', $filename, PDO::PARAM_STR);
+		// $s -> bindValue(':img', $filename, PDO::PARAM_STR);
 		$s -> execute();
 		// $last_id = $pdo -> lastInsertId();
 		// append_log('#'.$last_id.' added to supplier part table');
@@ -179,7 +185,7 @@ function addDrawing($pdo, $partid, $drawing_number, $filename) {
 		}
 
 		// add part details
-		$partid = addPart($pdo, $_POST['descr'], $_POST['typeid'] );
+		$partid = addPart($pdo, $_POST['descr'], $_POST['typeid'], $ext );
 		$filename = './img/'.$partid.$ext;
 
 		// add drawing details
