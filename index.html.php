@@ -2,93 +2,45 @@
 <html>
 <head>
 	<title>Transcrete dbPart</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/site.css">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<!-- <link rel="stylesheet" type="text/css" href="smartmenus/css/sm-core-css.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="smartmenus/css/sm-simple/sm-simple.css"> -->
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
 		<script type="text/javascript" src='./js/partnumber.js'></script>
-	
-	<style type="text/css">
-	html {
-		font-family: Arial,sans-serif;
-		font-size: 0.9em;
-	}
-	a {
-		font-weight: 0.75em;	
-	}
-	table { 
-		border-collapse: collapse; 
-	}
-	
-	td, th { 
-		border: 1px solid black;
-		padding: 5px; 
-		font-size: 0.75em;
-	}
-	
-/*	form label{
-		float: left;
-		width: 150px;
-		margin-bottom: 5px;
-	}*/
-	.zebra {
-		background-color: #dddddd;
-  	color: #666666;
-	}
-	.zebrahover { background-color: #FFFACD; }
-	
-#overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	background-color: rgba(0,0,0,.75);
-	width: 100%;
-	height: 100%;
-	z-index: 50;
-}
-
-#photo {
-	position: fixed;
-	z-index: 100;
-	top: 48%;
-	left: 50%;
-}
-
-#photo img {
-	width: auto;
-	max-width: 800px;
-	height: auto;
-	max-height: 800px;
-	border: 10px solid black;
-}
-
-	</style>
+		<!-- // <script type="text/javascript" src='./js/init.js'></script>	 -->
+		<!-- // <script type="text/javascript" src='./smartmenus/jquery.smartmenus.js'></script> -->
 
 </head>
 <body>
+	<div id="nav"></div>
 	<div id="wrapper">
 		<header>
-			<h1>Part Number List</h1>
+			<h1>Part List</h1>
+			<?php // include '/include/navbar.inc.php'; ?>
 		</header>
 		<div id="table">
 			<table>
 				<tr id="head">
 					<th class="edit" id="clickme"><!-- EDIT --></th>
-					<th>PID</th>
-					<th>DESCRIPTION</th>
-					<th>DRAWING NUMBER</th>
-					<th>SUPPLIER PART NUMBER</th>
-					<th>SUPPLIER</th>
+					<?php 
+						foreach ($th as $value) {
+							echo '<th>'.$value.'</th>'; 
+						}
+					?>
 				</tr>
 				<?php foreach($results AS $row): ?>
 					<tr class="clickable-row" value="<?php echo $row['PID']; ?>" data-href="/img/<?php echo $row['PID']; ?>.jpg" >
 						<td class="edit"><input type="radio" value="<?php echo $row['PID']; ?>" name="edit"></input></td>
 						<td><?php echo $row['PID']; ?></td>
-						<td><?php echo $row['DESCRIPTION']; ?></td>
-						<td id="dwg"><?php echo $row['DWG_NUMBER']; ?></td>
-						<td id="part"><?php echo $row['PART_NUMBER']; ?></td>
-						<td><?php echo $row['SUPPLIER']; ?></td>
+						<td class="img-click"><?php echo $row['DESCRIPTION']; ?></td>
+						<td class="img-click"><?php echo $row['DWG_NUMBER']; ?></td>
+						<!-- <td id="part"><?php echo $row['PART_NUMBER']; ?></td> -->
+						<!-- <td><?php echo $row['SUPPLIER']; ?></td> -->
+						<input type="hidden" value="<?php echo $row['IMAGE']; ?>"></input>
 				  </tr>
 			<?php endforeach; ?>
 			</table>

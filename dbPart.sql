@@ -81,61 +81,65 @@ INSERT into tbType (type, descr) VALUES ('POW', 'Truck, engine and PTO component
 INSERT into tbType (type, descr) VALUES ('SUB', 'Sub contract requirement');
 INSERT into tbType (type, descr) VALUES ('CON', 'Consumable components');
 
-INSERT INTo tbSupplier 
-SET company = 'TRANSCRETE';
-
+INSERT INTO tbSupplier SET company = 'TRANSCRETE';
 
 INSERT INTO tbSupplier SET company = 'ASHDOWNS';
 INSERT INTO tbSupplier SET company = 'COLUSSI ENGINEERING';
 INSERT INTO tbSupplier SET company = 'JTD ENGINEERING';
 INSERT INTO tbSupplier SET company = 'POWERCLIPPER';
 INSERT INTO tbSupplier SET company = 'PRINCE';
--- INSERT INTO tbSupplier SET company = 'TRANSCRETE';
 
-INSERT IGNORE INTO tbPart 
-SET 
--- prefix = 'P',
--- SET part_number = CONCAT('P', 300000),
-	descr = 'RELAY CHANGE OVER  24V 30A 5 PIN',
-	image = 'img/300000.jpg';
-	-- typeid = '3';
 
-INSERT IGNORE INTO tbPart 
-SET 
--- prefix = 'P',
--- SET part_number = CONCAT('P', LAST_INSERT_ID() + 1),
-	descr = 'INTERPUMP WS202', 
-	-- typeid = '5';
-	image = 'img/300001.jpg';
+-- INSERT IGNORE INTO tbPart 
+-- SET 
+-- -- prefix = 'P',
+-- -- SET part_number = CONCAT('P', 300000),
+-- 	descr = 'RELAY CHANGE OVER  24V 30A 5 PIN',
+-- 	image = 'img/300000.jpg';
+-- 	-- typeid = '3';
 
-INSERT IGNORE INTO tbPart 
-SET 
--- prefix = 'P',
--- SET part_number = CONCAT('P', LAST_INSERT_ID() + 1),
--- SET part_number = '35T-301',
-	descr = 'TROJAN CLEVIS PIN (3/4")', 
-	image = 'img/300002.jpg';
-	-- typeid = '4';
+-- INSERT IGNORE INTO tbPart 
+-- SET 
+-- -- prefix = 'P',
+-- -- SET part_number = CONCAT('P', LAST_INSERT_ID() + 1),
+-- 	descr = 'INTERPUMP WS202', 
+-- 	-- typeid = '5';
+-- 	image = 'img/300001.jpg';
 
-INSERT IGNORE INTO tbPart 
-SET 
--- prefix = 'P',
--- SET part_number = CONCAT('P', LAST_INSERT_ID() + 1),
--- SET part_number = 'T0055',
-	descr = 'TRUCK SIDE DECK SHEET', 
-	image = 'img/300003.jpg';
-	-- typeid = '1';
+-- INSERT IGNORE INTO tbPart 
+-- SET 
+-- -- prefix = 'P',
+-- -- SET part_number = CONCAT('P', LAST_INSERT_ID() + 1),
+-- -- SET part_number = '35T-301',
+-- 	descr = 'TROJAN CLEVIS PIN (3/4")', 
+-- 	image = 'img/300002.jpg';
+-- 	-- typeid = '4';
 
-INSERT IGNORE INTO tbSupplierPart (supplierid, partid, sup_part_number)
-VALUES
-(2, 300000,'0 332 209 203'),
-(4, 300002, 'SEAOARD 19.05 PIN'),
-(3, 300001, 'WS202'),
-(5, 300002, 'HARDENED PIN 3/4'),
-(1, 300002, '35T-301'),
-(6, 300003, 'DECK SIDE SHEET');
+-- INSERT IGNORE INTO tbPart 
+-- SET 
+-- -- prefix = 'P',
+-- -- SET part_number = CONCAT('P', LAST_INSERT_ID() + 1),
+-- -- SET part_number = 'T0055',
+-- 	descr = 'TRUCK SIDE DECK SHEET', 
+-- 	image = 'img/300003.jpg';
+-- 	-- typeid = '1';
+
+
+
+-- the below can be uncommented after js inserts partnumbers
+
+-- INSERT IGNORE INTO tbSupplierPart (supplierid, partid, sup_part_number)
+-- VALUES
+-- (2, 300000,'0 332 209 203'),
+-- (4, 300002, 'SEAOARD 19.05 PIN'),
+-- (3, 300001, 'WS202'),
+-- (5, 300002, 'HARDENED PIN 3/4'),
+-- (1, 300002, '35T-301'),
+-- (6, 300003, 'DECK SIDE SHEET');
 	
-INSERT INTO tbDrawing (partid, drawing_number, rev) 
-VALUES 
-(300002, '35T-301', 'A'),
-(300003, 'T0055', 'B');
+-- INSERT INTO tbDrawing (partid, drawing_number, rev) 
+-- VALUES 
+-- (300002, '35T-301', 'A'),
+-- (300003, 'T0055', 'B');
+
+-- **** **** **** **** **** **** **** **** **** **** **** ****

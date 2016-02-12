@@ -1,0 +1,85 @@
+html {
+	font-family: Arial,sans-serif;
+	font-size: 0.9em;
+}
+a {
+	font-weight: 0.75em;	
+}
+table { 
+	border-collapse: collapse; 
+}
+
+td, th { 
+	border: 1px solid black;
+	padding: 5px; 
+	font-size: 0.75em;
+}
+/*  table formatting */
+.zebra {
+	background-color: #dddddd;
+		color: #666666;
+}
+.zebrahover { 
+	background-color: #FFFACD;
+}
+
+/* image display formatting */
+#overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: rgba(0,0,0,.75);
+	width: 100%;
+	height: 100%;
+	z-index: 50;
+}
+
+#photo {
+	position: fixed;
+	z-index: 100;
+	top: 48%;
+	left: 50%;
+}
+
+#photo img {
+	width: auto;
+	max-width: 800px;
+	height: auto;
+	max-height: 800px;
+	border: 10px solid black;
+}
+
+#nav {
+	float: left;
+	width: 100%;
+}
+#nav ul {
+list-style: none;
+margin: 0;
+margin-right: 150px;
+padding: 0;
+}
+
+#nav li {
+background: #dddddd;
+border-left: 1px solid #999;
+float: left;
+margin: 0;
+padding: 0;
+}
+
+#nav a {
+color: #666;
+/*font-weight: bold;*/
+padding: 5px 10px;
+text-decoration: none;
+}
+
+#nav a:hover {
+color: #333;
+}
+
+#nav #currentpage a {
+background: #fff;
+color: #333;
+}

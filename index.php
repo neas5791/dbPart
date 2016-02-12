@@ -50,18 +50,30 @@ function dbConnect() {
 	return $pdo;
 }
 
-function addPart($pdo, $descr, $typeid, $ext){
+function addPart($pdo, $descr, $ext){
+// function addPart($pdo, $descr, $typeid, $ext){	
 	// $pdo = dbConnect();
 	// echo '<br><span>Hit function addPart().</span><br>';
-
-	
+	try {
+		$sql = 'SELECT MAX(id) AS "NEXT_ID" FROM tbPart FOR UPDATE';
+		$stmt = $pdo->query($sql);
+		$row = $stmt->fetch();
+		$next_id = $row['NEXT_ID'] + 1;
+	}
+	catch (PDOException $e) {
+		$error =  'Failed to count parts'.	
+		$e->getMessage();
+		echo $error;
+	}
+	// echo $next_id;
 	try {
 		// $sql = 'INSERT INTO tbPart (descr, typeid, image) VALUES ( :descr, :typeid, :image )';	
 		$sql = 'INSERT INTO tbPart (descr, image) VALUES ( :descr, :image )';	
 		$s = $pdo -> prepare($sql);
 		$s -> bindValue(':descr', $descr, PDO::PARAM_STR);
 		// $s -> bindValue(':typeid', $typeid, PDO::PARAM_INT);
-		$filename = './img/'.($pdo -> lastInsertId()).$ext;	
+		// $filename = ($pdo -> lastInsertId()).$ext;	
+		$filename = $next_id.$ext;	
 		$s -> bindValue(':image', $filename, PDO::PARAM_STR);
 		$s -> execute();
 		$last_id = $pdo -> lastInsertId();
@@ -185,8 +197,9 @@ function addDrawing($pdo, $partid, $drawing_number, $filename) {
 		}
 
 		// add part details
-		$partid = addPart($pdo, $_POST['descr'], $_POST['typeid'], $ext );
-		$filename = './img/'.$partid.$ext;
+		// $partid = addPart($pdo, $_POST['descr'], $_POST['typeid'], $ext );
+		$partid = addPart($pdo, $_POST['descr'], $ext );
+		$filename = $partid.$ext;
 
 		// add drawing details
 		if (isset($_POST['drawing_number'])){
@@ -206,7 +219,7 @@ function addDrawing($pdo, $partid, $drawing_number, $filename) {
 						file_put_contents($log, $error, FILE_APPEND);
 		}
 
-		echo 'Database update successful';
+		// echo 'Database update successful';
 	}
 
 
@@ -223,20 +236,30 @@ function addDrawing($pdo, $partid, $drawing_number, $filename) {
 		$s -> execute();
 		$suppliers = $s -> fetchAll();
 
+		// $sql = 'SELECT
+		// 			tbPart.id AS "PID",  
+		// 			tbPart.descr AS "DESCRIPTION", 
+		// 			IFNULL(tbDrawing.drawing_number,"") AS "DWG_NUMBER",
+		// 			tbSupplierPart.sup_part_number AS "PART_NUMBER",
+		// 			tbSupplier.company as "SUPPLIER"
+		// 		FROM tbPart
+		// 		LEFT OUTER JOIN tbDrawing ON tbPart.id = tbDrawing.partid
+		// 		LEFT OUTER JOIN tbSupplierPart ON tbPart.id = tbSupplierPart.partid
+		// 		INNER JOIN tbSupplier ON tbSupplierPart.supplierid = tbSupplier.id
+		// 		ORDER BY PID';
+
 		$sql = 'SELECT
 					tbPart.id AS "PID",  
-					tbPart.descr AS "DESCRIPTION", 
-					IFNULL(tbDrawing.drawing_number,"") AS "DWG_NUMBER",
-					tbSupplierPart.sup_part_number AS "PART_NUMBER",
-					tbSupplier.company as "SUPPLIER"
-				FROM tbPart
-				LEFT OUTER JOIN tbDrawing ON tbPart.id = tbDrawing.partid
-				LEFT OUTER JOIN tbSupplierPart ON tbPart.id = tbSupplierPart.partid
-				INNER JOIN tbSupplier ON tbSupplierPart.supplierid = tbSupplier.id
-				ORDER BY PID';
+		 			tbPart.descr AS "DESCRIPTION", 
+		 			tbPart.image AS "IMAGE",
+		 			IFNULL(tbDrawing.drawing_number,"") AS "DWG_NUMBER"
+		 		FROM tbPart
+		 		LEFT JOIN tbDrawing ON tbPart.id = tbDrawing.partid
+		 		ORDER BY PID';
 		$s = $pdo->prepare($sql);
 		$s -> execute();
 		$results = $s -> fetchAll();
+		$th = array('PID', 'DESCRIPTION', 'DRAWING' );
 	}
 	catch (PDOException $e) {
 		$error =  'Error getting Type list:<br>'.	

@@ -2,11 +2,28 @@
 
 $(document).ready(function() {
 
+	$('#nav').load('include/navigation.inc.php');
+
+
+
 	// var fields = new Array('pid', 'descr', 'image', 'drawing_number', 'sup_part_number', 'supplier', 'type');
 
 	// for (var i = 0; i < fields.length; i++) {
 	// 	console.log(fields[i])
 	// }
+	// $('#navigation ul').each( 
+	// 	function() {
+	// 		$(this).addClass('sm sm-simple');
+	// 	});
+
+	// $('.sm').smartmenus({
+	// 	showFunction: function($ul, complete) {
+	// 		$ul.slideDown(250,complete);
+	// 	},
+	// 	hideFunction: function($ul, complete) {
+	// 		$ul.slideUp(250, complete);
+	// 	}
+	// }); // end smartmenus
 
 	clear(); // clear selection radio mark
 
@@ -35,15 +52,51 @@ $(document).ready(function() {
 			}); // end click
 
 	$('#clickme').click(
-		function() {
-			if ( $('#nav-toolbox form').is(':hidden') ){
-					$('#nav-toolbox, #nav-toolbox form').slideDown();
-				}
-				else {
-					$('#nav-toolbox, #nav-toolbox form').slideUp();	
-				} // end if-else
-		}
+		function () {
+			var data1 = {	action: 'insert',
+							descr:'RELAY CHANGE OVER  24V 30A 5 PIN',	
+							image: '300000.jpg' };
+			var data2 = {	action: 'insert',
+							descr: 'INTERPUMP WS202',	
+							image: '300001.jpg' };
+			var data3 = {	action: 'insert',
+							descr: 'TROJAN CLEVIS PIN (3/4")',	
+							image: '300002.jpg' };
+			var data4 = {	action: 'insert',
+							descr: 'TRUCK SIDE DECK SHEET',	
+							image: '300003.jpg' };
+
+			var data = new Array();
+			data.push(data1);
+			data.push(data2);
+			data.push(data3);
+			data.push(data4);
+
+			// =  new array(data1, data2, data3, data4);
+
+			console.log('init function'+ data.length);
+
+			data.forEach(
+				function(item){
+					console.log(item);
+					$.post('part.php', item );		
+				});
+			// foreach (data AS item){
+			// 	console.log(item);
+			// 	// $.post('php/part.php', item );
+			// }
+		}		
+	// 	function() {
+	// 		if ( $('#nav-toolbox form').is(':hidden') ){
+	// 				$('#nav-toolbox, #nav-toolbox form').slideDown();
+	// 			}
+	// 			else {
+	// 				$('#nav-toolbox, #nav-toolbox form').slideUp();	
+	// 			} // end if-else
+	// 	}
 	);
+
+
 	$('#nav-toolbox form').hide(); // hide the div form
 	$('#nav-toolbox').hide(); // hide the div
 	// $('.edit').hide();
@@ -115,11 +168,13 @@ $(document).ready(function() {
 			$(this).removeClass("zebrahover");
 		} // end function mouse out
 	); // end hover
-	$('td').click( function(event) {
-		console.log(event.target);
-	}); // end click
+	// $('td').click( function(event) {
+	// 	console.log(event.target);
+	// }); // end click
 
-	$('.clickable-row #dwg').click( function (evt) {
+	$('.img-click').click( function (event) {
+		console.log(event.target);
+		console.log($(this).siblings('input').val());
 		var $tr_parent = $(this).parent('tr');
 
 		var value = $tr_parent.attr('value'); // works gives me the value only
@@ -128,15 +183,15 @@ $(document).ready(function() {
 		// Jquery: Missing Manual edition 3 Chapter 7 Basic Light-box
 		var imgPath, newImage;
 		//get path to new image
-	  	imgPath = '/img/' + value + '.jpg';
+	  	// imgPath = '/img/' + value + '.jpg';
 	   	// create HTML for new image, set opacity
 	   	// also callback for when image loads
-		$img = $('<img src="' + imgPath +'">').css('opacity',0).load(displayImage);
-				
+		// $img = $('<img src="' + imgPath +'">').css('opacity',0).load(displayImage);
+		$img = $('<img src="/img/' + $(this).siblings('input').val() +'">').css('opacity',0).load(displayImage);				
 		//don't follow link
-		evt.preventDefault();
+		event.preventDefault();
 		//don't let event go up page
-		evt.stopPropagation();
+		event.stopPropagation();
 	}); // end click
 
 	
